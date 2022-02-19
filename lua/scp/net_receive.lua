@@ -1,0 +1,7 @@
+net.Receive("SCPUseEntity", function (len, ply)
+    SCP.UseEntity = net.ReadEntity()
+end)
+net.Receive("SCPUsePos", function (len, ply)
+    local x, y, z = net.ReadFloat(), net.ReadFloat(), net.ReadFloat()
+    SCP.UsePos = Vector(x, y, z)
+end)
