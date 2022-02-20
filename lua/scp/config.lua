@@ -20,10 +20,17 @@ SCP.tilt = Angle(0, 0, 1)
 SCP.HUD = {}
 SCP.HUD.hand = Material(SCP.materialHomeDir .. "/handsymbol.png")
 SCP.HUD.hand2 = Material(SCP.materialHomeDir .. "/handsymbol2.png")
+SCP.HUD.sprint = Material(SCP.materialHomeDir .. "/sprinticon.png")
+SCP.HUD.sprintbar = Material(SCP.materialHomeDir .. "/StaminaMeter.png")
+
+SCP.HUD.meterOutline = 1
+SCP.HUD.meterBackColor = Color(48, 48, 48, 255)
 
 SCP.HUDColor = Color(255, 255, 255, 255)
 SCP.HUDImgSize = 96
 SCP.HUDHalfImgSize = SCP.HUDImgSize * 0.5
+
+SCP.HUDIconSize = 30
 
 SCP.HUDTextColor = Color(232, 232, 232, 255)
 SCP.HUDTextColorO = Color(0, 0, 0, 255)
