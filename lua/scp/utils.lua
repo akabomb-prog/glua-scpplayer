@@ -50,7 +50,7 @@ function SCP.GetUseEntity(ply)
             end
         end
     end
-    return SCP.GetNearestEntT(ply:EyePos(), usableEnts, 64)
+    return SCP.GetNearestEntT(ply:EyePos(), usableEnts, ply:GetViewOffset().z + 16)
 end
 elseif CLIENT then
 SCP.UseEntity = NULL
