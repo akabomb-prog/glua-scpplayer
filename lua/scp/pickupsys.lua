@@ -1,19 +1,31 @@
 hook.Add("PlayerCanPickupItem", "SCPPlayer", function (ply, item)
-    return (ply:KeyDown(IN_USE) and (not ply:KeyDownLast(IN_USE))) and (item:GetPos():DistToSqr(ply:WorldSpaceCenter()) < 72)
+	if not SCP.ShouldAffect(ply) then return end
+    return (ply:KeyDown(IN_USE) and (not ply:KeyDownLast(IN_USE))) and SCP.InPickupRange(ply, item)
 end)
 
 hook.Add("PlayerCanPickupWeapon", "SCPPlayer", function (ply, weapon)
-    return false
+	if not SCP.ShouldAffect(ply) then return end
+    return (ply:KeyDown(IN_USE) and (not ply:KeyDownLast(IN_USE))) and SCP.InPickupRange(ply, weapon)
 end)
 
 hook.Add("AllowPlayerPickup", "SCPPlayer", function (ply, ent)
+	if not SCP.ShouldAffect(ply) then return end
     return false
 end)
 
+local b_nonSCPDisallow = CreateConVar("scp_limit_nonlisted_item_use", '1', bit.bor(FCVAR_LUA_SERVER, FCVAR_REPLICATED), "Disallow usage of \"Non-SCP\" objects? (doors, buttons, items, etc.)", 0, 1)
+
 hook.Add("FindUseEntity", "SCPPlayer", function (ply, defaultEnt)
+	if not SCP.ShouldAffect(ply) then return end
     local ent = SCP.GetUseEntity(ply)
     local pickup = ply:KeyDown(IN_USE) and (not ply:KeyDownLast(IN_USE))
-    if not (IsValid(ent) and pickup) then return NULL end
+    if not (IsValid(ent) and pickup) then
+        if b_nonSCPDisallow:GetBool() then
+            return NULL
+        else
+            return
+        end
+    end
     if pickup then
         if ent:GetVar("SCP_StatusText") ~= nil then
             SCP.SendStatusText(ply, ent:GetVar("SCP_StatusText", ''))
@@ -25,14 +37,10 @@ hook.Add("FindUseEntity", "SCPPlayer", function (ply, defaultEnt)
         end
     end
     if ent:IsWeapon() then ply:PickupWeapon(ent) end
-    if ent:GetClass():StartWith("item_") then
-        local pObj = ent:GetPhysicsObject()
-        if IsValid(pObj) and (pObj:GetVolume() < 10000) then
-            ent:SetPos(ply:WorldSpaceCenter())
-            ent:PhysWake()
-        elseif not IsValid(pObj) then
-            ent:SetPos(ply:WorldSpaceCenter())
-        end
+    local whatItem = SCP.WhatItem(ent)
+    if (whatItem == "item") or (whatItem == "physitem") or (whatItem == "weapon") then
+        ent:SetPos(ply:WorldSpaceCenter())
+        ent:PhysWake()
     end
     ent:Use(ply)
     return ent

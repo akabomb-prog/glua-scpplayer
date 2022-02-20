@@ -4,6 +4,7 @@ if SERVER then
     include "scp/net.lua"
     include "scp/movement.lua"
     include "scp/pickupsys.lua"
+    include "scp/stamina.lua"
 elseif CLIENT then
     include "scp/net_receive.lua"
     include "scp/client.lua"

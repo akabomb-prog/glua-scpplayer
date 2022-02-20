@@ -8,7 +8,7 @@ local function CalcPosAng(ply)
 end
 
 hook.Add("CalcView", "SCPPlayer", function (ply, pos, angles, fov)
-	if not ply:Alive() then return end
+	if not SCP.ShouldAffect(ply) then return end
 	local posOffset, angOffset = CalcPosAng(ply)
 	local view = {
 		origin = pos + posOffset,
@@ -20,7 +20,7 @@ end)
 
 hook.Add("CalcViewModelView", "SCPPlayer", function (wep, vm, oldPos, oldAng, pos, ang)
 	local ply = wep:GetOwner()
-	if not ply:Alive() then return end
+	if not SCP.ShouldAffect(ply) then return end
 	local posOffset, angOffset = CalcPosAng(ply)
 	return pos + posOffset, ang
 end)

@@ -25,6 +25,41 @@ function SCP.GetNearestEntT(pos, ents, limit)
     return nearest, dist
 end
 
+function SCP.ShouldAffect(ply)
+	if ply:InVehicle() then return false end
+	if not ply:Alive() then return false end
+    return true
+end
+
+function SCP.IsMoving(ply)
+    local fb, rl = 0, 0
+    if ply:KeyDown(IN_FORWARD) then fb = 1 end
+    if ply:KeyDown(IN_BACK) then fb = fb - 1 end
+    if ply:KeyDown(IN_MOVERIGHT) then rl = 1 end
+    if ply:KeyDown(IN_MOVELEFT) then rl = rl - 1 end
+    return (fb ~= 0) or (rl ~= 0)
+end
+
+function SCP.InPickupRange(ply, item)
+    return item:GetPos():DistToSqr(ply:WorldSpaceCenter()) < 72
+end
+
+function SCP.WhatItem(ent)
+    local pObj = ent:GetPhysicsObject()
+    if ent:GetClass():StartWith("item_") then
+        if ent:GetClass():match("charger") then
+            return "charger"
+        end
+        if IsValid(pObj) and (pObj:GetVolume() < 10000) then
+            return "physitem"
+        end
+        return "item"
+    end
+    if ent:IsWeapon() then return "weapon" end
+    if IsValid(pObj) or ent:GetClass():StartWith("prop_") then return "prop" end
+    return "other" 
+end
+
 if SERVER then
 function SCP.GetUseEntity(ply)
     local usableEnts = {}
@@ -48,7 +83,7 @@ function SCP.GetUseEntity(ply)
     end
     for _,e in ipairs(ents.GetAll()) do
         if e:IsWeapon() then
-            if not e:GetOwner():IsPlayer() then
+            if not IsValid(e:GetOwner()) then
                 table.insert(usableEnts, e)
             end
         end

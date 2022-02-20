@@ -2,7 +2,7 @@ LocalPlayer():SetVar("SCPPlayer_walkPhaseC", 0.0)
 LocalPlayer():SetVar("SCPPlayer_wSoundPlayed", false)
 
 local function PlayAppropriateStepSound(ply, ucmd)
-    local sprint = ucmd:KeyDown(IN_SPEED)
+    local sprint = ucmd:KeyDown(IN_SPEED) and ply:GetNWBool("SCP_CanSprint")
     local tr = util.TraceEntity({
         start = ply:GetPos(),
         endpos = ply:GetPos() + SCP.down,
@@ -23,13 +23,13 @@ end
 
 local lastcommand = RealTime()
 hook.Add("StartCommand", "SCPPlayer", function (ply, ucmd)
-    ucmd:RemoveKey(IN_JUMP)
+	if not SCP.ShouldAffect(ply) then return end
 	local mv = math.abs(ucmd:GetForwardMove()) + math.abs(ucmd:GetSideMove())
 	if mv ~= 0 then
 		mv = 1
 		if ply:OnGround() then
 			local phase = mv
-            if ucmd:KeyDown(IN_SPEED) then phase = phase * SCP.run_IstepTime
+            if ucmd:KeyDown(IN_SPEED) and ply:GetNWBool("SCP_CanSprint") then phase = phase * SCP.run_IstepTime
             else phase = phase * SCP.IstepTime end
 			ply:SetVar("SCPPlayer_walkPhaseC", ply:GetVar("SCPPlayer_walkPhaseC", 0.0) + phase * (RealTime() - lastcommand))
 		end

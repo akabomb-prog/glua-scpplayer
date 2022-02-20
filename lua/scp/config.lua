@@ -3,6 +3,10 @@ SCP.soundHomeDir = "scp"
 SCP.materialHomeDir = "scp"
 
 SCP.speed = 120
+SCP.runSpeed = SCP.speed * 2
+SCP.staminaDrainSpeed = 18
+SCP.staminaRecoverSpeed = 8
+SCP.sprintRecoveryTime = 3.5
 
 SCP.stepTime = 0.72 * 1000 -- 83.333... bpm
 SCP.run_stepTime = 0.48 * 1000 -- 125 bpm
@@ -14,7 +18,8 @@ SCP.down = Vector(0, 0, -6)
 SCP.tilt = Angle(0, 0, 1)
 
 SCP.HUD = {}
-SCP.HUD.hand = Material(SCP.materialHomeDir .. "/handsymbol2.png")
+SCP.HUD.hand = Material(SCP.materialHomeDir .. "/handsymbol.png")
+SCP.HUD.hand2 = Material(SCP.materialHomeDir .. "/handsymbol2.png")
 
 SCP.HUDColor = Color(255, 255, 255, 255)
 SCP.HUDImgSize = 96
