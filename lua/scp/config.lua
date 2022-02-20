@@ -13,12 +13,15 @@ SCP.run_IstepTime = 1 / SCP.run_stepTime * 1000
 SCP.down = Vector(0, 0, -6)
 SCP.tilt = Angle(0, 0, 1)
 
+SCP.HUD = {}
+SCP.HUD.hand = Material(SCP.materialHomeDir .. "/handsymbol2.png")
+
 SCP.HUDColor = Color(255, 255, 255, 255)
 SCP.HUDImgSize = 96
 SCP.HUDHalfImgSize = SCP.HUDImgSize * 0.5
 
-SCP.HUD = {}
-SCP.HUD.hand = Material(SCP.materialHomeDir .. "/handsymbol2.png")
+SCP.HUDTextColor = Color(232, 232, 232, 255)
+SCP.HUDTextColorO = Color(0, 0, 0, 255)
 
 local function trandom(t)
 	return t[math.random(#t)]

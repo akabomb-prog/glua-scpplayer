@@ -15,6 +15,9 @@ hook.Add("FindUseEntity", "SCPPlayer", function (ply, defaultEnt)
     local pickup = ply:KeyDown(IN_USE) and (not ply:KeyDownLast(IN_USE))
     if not (IsValid(ent) and pickup) then return NULL end
     if pickup then
+        if ent:GetVar("SCP_StatusText") ~= nil then
+            SCP.SendStatusText(ply, ent:GetVar("SCP_StatusText", ''))
+        end
         if ent:GetClass():match("item_") then
             ply:EmitSound("scp/interact/PickItem2.ogg")
         elseif ent:IsWeapon() then

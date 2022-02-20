@@ -1,5 +1,6 @@
 util.AddNetworkString("SCPUseEntity")
 util.AddNetworkString("SCPUsePos")
+util.AddNetworkString("SCPStatusText")
 function SCP.SendUse(ply)
     local ent = SCP.GetUseEntity(ply)
     net.Start("SCPUseEntity")
@@ -9,6 +10,12 @@ function SCP.SendUse(ply)
     local pos = ent:WorldSpaceCenter()
     net.Start("SCPUsePos")
         net.WriteVector(pos)
+    net.Send(ply)
+end
+
+function SCP.SendStatusText(ply, text)
+    net.Start("SCPStatusText")
+        net.WriteString(text)
     net.Send(ply)
 end
 

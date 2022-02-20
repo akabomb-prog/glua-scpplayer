@@ -8,5 +8,6 @@ elseif CLIENT then
     include "scp/net_receive.lua"
     include "scp/client.lua"
     include "scp/camera.lua"
+    include "scp/statustext.lua"
     include "scp/graphics.lua"
 end
