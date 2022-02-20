@@ -1,22 +1,28 @@
+local b_useRestriction = CreateConVar("scp_item_only_use", '1', bit.bor(FCVAR_LUA_SERVER, FCVAR_REPLICATED), "Only pick up items if pressed use?", 0, 1)
+
 hook.Add("PlayerCanPickupItem", "SCPPlayer", function (ply, item)
 	if not SCP.ShouldAffect(ply) then return end
+    if not b_useRestriction:GetBool() then return end
     return (ply:KeyDown(IN_USE) and (not ply:KeyDownLast(IN_USE))) and SCP.InPickupRange(ply, item)
 end)
 
 hook.Add("PlayerCanPickupWeapon", "SCPPlayer", function (ply, weapon)
 	if not SCP.ShouldAffect(ply) then return end
+    if not b_useRestriction:GetBool() then return end
     return (ply:KeyDown(IN_USE) and (not ply:KeyDownLast(IN_USE))) and SCP.InPickupRange(ply, weapon)
 end)
 
 hook.Add("AllowPlayerPickup", "SCPPlayer", function (ply, ent)
 	if not SCP.ShouldAffect(ply) then return end
+    if not b_useRestriction:GetBool() then return end
     return false
 end)
 
-local b_nonSCPDisallow = CreateConVar("scp_limit_nonlisted_item_use", '1', bit.bor(FCVAR_LUA_SERVER, FCVAR_REPLICATED), "Disallow usage of \"Non-SCP\" objects? (doors, buttons, items, etc.)", 0, 1)
+local b_nonSCPDisallow = CreateConVar("scp_item_limit_nonlisted_use", '1', bit.bor(FCVAR_LUA_SERVER, FCVAR_REPLICATED), "Disallow usage of \"Non-SCP\" objects? (doors, buttons, items, etc.)", 0, 1)
 
 hook.Add("FindUseEntity", "SCPPlayer", function (ply, defaultEnt)
 	if not SCP.ShouldAffect(ply) then return end
+    if not b_useRestriction:GetBool() then return end
     local ent = SCP.GetUseEntity(ply)
     local pickup = ply:KeyDown(IN_USE) and (not ply:KeyDownLast(IN_USE))
     if not (IsValid(ent) and pickup) then

@@ -1,18 +1,24 @@
+local b_drawHUD = CreateClientConVar("scp_hud", '1', FCVAR_NONE, "Draw SCP HUD?", 0, 1)
+local b_useRestriction = GetConVar("scp_item_only_use")
+
 hook.Add("HUDPaint", "SCPPlayer", function ()
+    if not b_drawHUD:GetBool() then return end
     surface.SetDrawColor(SCP.HUDColor)
-    -- local pos = Vector(-350, 1184, 110):ToScreen()
-    if IsValid(SCP.GetUseEntity()) then
-        local whatItem = SCP.WhatItem(SCP.GetUseEntity())
-        if (whatItem ~= "other") and (whatItem ~= "charger") then
-            surface.SetMaterial(SCP.HUD.hand2)
-        else
-            surface.SetMaterial(SCP.HUD.hand)
+
+    if b_useRestriction:GetBool() then
+        if IsValid(SCP.GetUseEntity()) then
+            local whatItem = SCP.WhatItem(SCP.GetUseEntity())
+            if (whatItem ~= "other") and (whatItem ~= "charger") then
+                surface.SetMaterial(SCP.HUD.hand2)
+            else
+                surface.SetMaterial(SCP.HUD.hand)
+            end
+            
+            local pos = SCP.GetUsePos()
+            pos = pos:ToScreen()
+            local iX, iY = pos.x - SCP.HUDHalfImgSize, pos.y - SCP.HUDHalfImgSize
+            surface.DrawTexturedRect(math.Clamp(iX, 0, ScrW() - SCP.HUDImgSize), math.Clamp(iY, 0, ScrH() - SCP.HUDImgSize), SCP.HUDImgSize, SCP.HUDImgSize)
         end
-        
-        local pos = SCP.GetUsePos()
-        pos = pos:ToScreen()
-        local iX, iY = pos.x - SCP.HUDHalfImgSize, pos.y - SCP.HUDHalfImgSize
-        surface.DrawTexturedRect(math.Clamp(iX, 0, ScrW() - SCP.HUDImgSize), math.Clamp(iY, 0, ScrH() - SCP.HUDImgSize), SCP.HUDImgSize, SCP.HUDImgSize)
     end
 
     local stamina = LocalPlayer():GetNWFloat("SCP_Stamina", 100)
@@ -53,6 +59,8 @@ local hide = {
 }
 
 hook.Add("HUDShouldDraw", "SCPPlayer", function (name)
+    if not b_drawHUD:GetBool() then return end
+    
 	if hide[name] then
 		return false
 	end
