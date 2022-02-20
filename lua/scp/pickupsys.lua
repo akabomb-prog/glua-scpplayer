@@ -13,14 +13,23 @@ end)
 hook.Add("FindUseEntity", "SCPPlayer", function (ply, defaultEnt)
     local ent = SCP.GetUseEntity(ply)
     local pickup = ply:KeyDown(IN_USE) and (not ply:KeyDownLast(IN_USE))
-    if not (IsValid(ent) and pickup) then return end
-    if pickup and IsValid(ent:GetPhysicsObject()) and (not ent:GetClass():StartWith("func_")) then
-        ply:EmitSound("scp/interact/PickItem2.ogg")
+    if not (IsValid(ent) and pickup) then return NULL end
+    if pickup then
+        if ent:GetClass():match("item_") then
+            ply:EmitSound("scp/interact/PickItem2.ogg")
+        elseif ent:IsWeapon() then
+            ply:EmitSound("scp/interact/PickItem1.ogg")
+        end
     end
     if ent:IsWeapon() then ply:PickupWeapon(ent) end
     if ent:GetClass():StartWith("item_") then
-        ent:SetPos(ply:WorldSpaceCenter())
-        ent:PhysWake()
+        local pObj = ent:GetPhysicsObject()
+        if IsValid(pObj) and (pObj:GetVolume() < 10000) then
+            ent:SetPos(ply:WorldSpaceCenter())
+            ent:PhysWake()
+        elseif not IsValid(pObj) then
+            ent:SetPos(ply:WorldSpaceCenter())
+        end
     end
     ent:Use(ply)
     return ent

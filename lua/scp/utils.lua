@@ -59,8 +59,8 @@ function SCP.GetUseEntity()
     return SCP.UseEntity
 end
 function SCP.GetUsePos()
-    local mins, maxs = SCP.UseEntity:GetCollisionBounds()
-    local rel = maxs - mins
-    return SCP.UsePos + Vector(0, 0, rel.z * 0.25)
+    --local mins, maxs = SCP.UseEntity:GetCollisionBounds()
+    --local rel = maxs - mins
+    return SCP.UsePos -- + Vector(0, 0, rel.z * 0.25)
 end
 end

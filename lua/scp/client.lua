@@ -3,7 +3,12 @@ LocalPlayer():SetVar("SCPPlayer_wSoundPlayed", false)
 
 local function PlayAppropriateStepSound(ply, ucmd)
     local sprint = ucmd:KeyDown(IN_SPEED)
-    local tr = util.QuickTrace(ply:GetPos(), SCP.down, ply)
+    local tr = util.TraceLine({
+        start = ply:GetPos(),
+        endpos = ply:GetPos() + SCP.down,
+        filter = ply,
+        mask = MASK_SHOT_HULL
+    })
     local prop = util.GetSurfacePropName(tr.SurfaceProps)
     if string.StartWith(prop, "metal") or (prop == "chainlink") then
         if sprint then ply:EmitSound(SCP.runmetalsound())

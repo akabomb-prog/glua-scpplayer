@@ -8,9 +8,7 @@ function SCP.SendUse(ply)
     if not IsValid(ent) then return end
     local pos = ent:WorldSpaceCenter()
     net.Start("SCPUsePos")
-        net.WriteFloat(pos.x)
-        net.WriteFloat(pos.y)
-        net.WriteFloat(pos.z)
+        net.WriteVector(pos)
     net.Send(ply)
 end
 
