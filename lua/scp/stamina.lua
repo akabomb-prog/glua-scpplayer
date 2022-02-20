@@ -20,6 +20,8 @@ hook.Add("Tick", "SCP_Stamina", function ()
                 stamina = math.Clamp(stamina + SCP.staminaRecoverSpeed * engine.TickInterval(), 0, 100)
             end
             ply:SetNWFloat("SCP_Stamina", stamina)
+        else
+            ply:SetNWFloat("SCP_Stamina", math.Clamp(ply:GetNWFloat("SCP_Stamina", 100) + SCP.staminaRecoverSpeed * engine.TickInterval(), 0, 100))
         end
     end
 end)

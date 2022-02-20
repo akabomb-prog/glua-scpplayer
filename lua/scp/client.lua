@@ -21,9 +21,16 @@ local function PlayAppropriateStepSound(ply, ucmd)
     end
 end
 
+local b_disableJump = GetConVar("scp_disable_jump")
+
 local lastcommand = RealTime()
 hook.Add("StartCommand", "SCPPlayer", function (ply, ucmd)
 	if not SCP.ShouldAffect(ply) then return end
+    if ucmd:KeyDown(IN_JUMP) and (not ply:KeyDown(IN_JUMP)) and (not b_disableJump:GetBool()) and ply:OnGround() then
+        PlayAppropriateStepSound(ply, ucmd)
+        ply:SetVar("SCPPlayer_walkPhaseC", 0)
+        ply:SetVar("SCPPlayer_wSoundPlayed", false)
+    end
 	local mv = math.abs(ucmd:GetForwardMove()) + math.abs(ucmd:GetSideMove())
 	if mv ~= 0 then
 		mv = 1
