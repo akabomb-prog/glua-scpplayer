@@ -1,14 +1,22 @@
-if not SCP.FontCreated then
+if not SCP.FontsCreated then
     surface.CreateFont("SCPStatusFont16", {
         font = "Courier New",
+        weight = 800,
         size = 16
     })
-    SCP.FontCreated = true
+    surface.CreateFont("SCPStatusFont20", {
+        font = "Courier New",
+        weight = 800,
+        size = 20
+    })
+    SCP.FontsCreated = true
 end
 
 SCP.StatusTextString = ''
-SCP.StatusLingerTime = 6
-SCP.StatusFadeOutTime = 4
+SCP.StatusTextFont = "SCPStatusFont20"
+
+SCP.StatusLingerTime = 5
+SCP.StatusFadeOutTime = 4.25
 SCP.StatusFadeOutBeforeEnd = SCP.StatusLingerTime - SCP.StatusFadeOutTime
 SCP.StatusLingerEnd = 0 -- time
 

@@ -30,7 +30,7 @@ function SCP.GetUseEntity(ply)
     local usableEnts = {}
     for _,e in ipairs(ents.FindByClass("prop_physics")) do
         local pObj = e:GetPhysicsObject()
-        if IsValid(pObj) and (pObj:GetVolume() < 10000) then
+        if (IsValid(pObj) and (pObj:GetVolume() < 10000)) or (e:GetVar("SCP_UseAnytime", false)) then
             table.insert(usableEnts, e)
         end
     end

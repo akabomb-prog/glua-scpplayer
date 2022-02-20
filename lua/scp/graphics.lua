@@ -11,8 +11,9 @@ hook.Add("HUDPaint", "SCPPlayer", function ()
 
     if SCP.ShouldShowText() then
         local x, y = ScrW() * SCP.StatusTextXMult, ScrH() * SCP.StatusTextYMult
-        draw.DrawText(SCP.StatusTextString, "SCPStatusFont16", x - 1, y + 1, SCP.HUDTextColorO, TEXT_ALIGN_CENTER)
+        draw.DrawText(SCP.StatusTextString, SCP.StatusTextFont, x - 1, y + 1, SCP.HUDTextColorO, TEXT_ALIGN_CENTER)
         surface.SetAlphaMultiplier(SCP.GetStatusAlphaMultiplier())
-        draw.DrawText(SCP.StatusTextString, "SCPStatusFont16", x, y, SCP.HUDTextColor, TEXT_ALIGN_CENTER)
+        draw.DrawText(SCP.StatusTextString, SCP.StatusTextFont, x, y, SCP.HUDTextColor, TEXT_ALIGN_CENTER)
+        surface.SetAlphaMultiplier(1)
     end
 end)
