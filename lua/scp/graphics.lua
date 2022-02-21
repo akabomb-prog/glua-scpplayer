@@ -17,7 +17,7 @@ hook.Add("HUDPaint", "SCPPlayer", function ()
             local pos = SCP.GetUsePos()
             pos = pos:ToScreen()
             local iX, iY = pos.x - SCP.HUDHalfImgSize, pos.y - SCP.HUDHalfImgSize
-            surface.DrawTexturedRect(math.Clamp(iX, 0, ScrW() - SCP.HUDImgSize), math.Clamp(iY, 0, ScrH() - SCP.HUDImgSize), SCP.HUDImgSize, SCP.HUDImgSize)
+            surface.DrawTexturedRect(math.Clamp(iX, SCP.SafeClampMargin, ScrW() - SCP.HUDImgSize - SCP.SafeClampMargin), math.Clamp(iY, SCP.SafeClampMargin, ScrH() - SCP.HUDImgSize - SCP.SafeClampMargin), SCP.HUDImgSize, SCP.HUDImgSize)
         end
     end
 
@@ -60,6 +60,8 @@ local hide = {
 
 hook.Add("HUDShouldDraw", "SCPPlayer", function (name)
     if not b_drawHUD:GetBool() then return end
+
+	if (name == "CHudCrosshair") and (not IsValid(LocalPlayer():GetActiveWeapon())) then return false end
     
 	if hide[name] then
 		return false

@@ -13,7 +13,8 @@ hook.Add("CalcView", "SCPPlayer", function (ply, pos, angles, fov)
 	local view = {
 		origin = pos + posOffset,
         angles = angles + angOffset,
-		drawviewer = false
+		drawviewer = false,
+		fov = fov * 0.85
 	}
 	return view
 end)

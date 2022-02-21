@@ -6,7 +6,7 @@ end
 
 hook.Add("Tick", "SCP_Stamina", function ()
     for i,ply in ipairs(player.GetAll()) do
-        if SCP.ShouldAffect(ply) then
+        if SCP.ShouldAffect(ply) and ply:OnGround() then
             local moving = SCP.IsMoving(ply)
             local sprinting = ply:KeyDown(IN_SPEED)
             local stamina = ply:GetNWFloat("SCP_Stamina", 100)

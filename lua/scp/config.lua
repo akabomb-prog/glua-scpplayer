@@ -30,7 +30,9 @@ SCP.HUDColor = Color(255, 255, 255, 255)
 SCP.HUDImgSize = 80
 SCP.HUDHalfImgSize = SCP.HUDImgSize * 0.5
 
-SCP.HUDIconSize = 30
+SCP.HUDIconSize = 32
+
+SCP.SafeClampMargin = 32
 
 SCP.HUDTextColor = Color(232, 232, 232, 255)
 SCP.HUDTextColorO = Color(0, 0, 0, 255)

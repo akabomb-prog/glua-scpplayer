@@ -31,13 +31,17 @@ function SCP.ShouldAffect(ply)
     return true
 end
 
+local moveThreshold = 48
+moveThreshold = moveThreshold*moveThreshold
+
 function SCP.IsMoving(ply)
     local fb, rl = 0, 0
     if ply:KeyDown(IN_FORWARD) then fb = 1 end
     if ply:KeyDown(IN_BACK) then fb = fb - 1 end
     if ply:KeyDown(IN_MOVERIGHT) then rl = 1 end
     if ply:KeyDown(IN_MOVELEFT) then rl = rl - 1 end
-    return (fb ~= 0) or (rl ~= 0)
+    local vel = ply:GetAbsVelocity():Length2DSqr()
+    return ((fb ~= 0) or (rl ~= 0)) and (vel > moveThreshold)
 end
 
 function SCP.InPickupRange(ply, item)
