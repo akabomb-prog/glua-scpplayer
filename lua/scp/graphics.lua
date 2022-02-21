@@ -1,4 +1,4 @@
-local b_drawHUD = CreateClientConVar("scp_hud", '1', FCVAR_NONE, "Draw SCP HUD?", 0, 1)
+local b_drawHUD = CreateClientConVar("scp_hud", '1', true, false, "Draw SCP HUD?", 0, 1)
 local b_useRestriction = GetConVar("scp_item_only_use")
 
 hook.Add("HUDPaint", "SCPPlayer", function ()
@@ -8,7 +8,7 @@ hook.Add("HUDPaint", "SCPPlayer", function ()
     if b_useRestriction:GetBool() then
         if IsValid(SCP.GetUseEntity()) then
             local whatItem = SCP.WhatItem(SCP.GetUseEntity())
-            if (whatItem ~= "other") and (whatItem ~= "charger") then
+            if (whatItem ~= "other") and (whatItem ~= "staticitem") then
                 surface.SetMaterial(SCP.HUD.hand2)
             else
                 surface.SetMaterial(SCP.HUD.hand)
@@ -42,7 +42,7 @@ hook.Add("HUDPaint", "SCPPlayer", function ()
         surface.DrawTexturedRect(staminaX + (i - 1) * barW, staminaY, barW, barH)
     end
 
-    draw.DrawText("SCP_Stamina:" .. stamina, SCP.StatusTextFont, 16, 512, SCP.HUDTextColor)
+    -- draw.DrawText("SCP_Stamina:" .. stamina, SCP.StatusTextFont, 16, 512, SCP.HUDTextColor)
 
     if SCP.ShouldShowText() then
         local x, y = ScrW() * SCP.StatusTextXMult, ScrH() * SCP.StatusTextYMult

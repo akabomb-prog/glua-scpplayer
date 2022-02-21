@@ -46,9 +46,10 @@ end
 
 function SCP.WhatItem(ent)
     local pObj = ent:GetPhysicsObject()
-    if ent:GetClass():StartWith("item_") then
-        if ent:GetClass():match("charger") then
-            return "charger"
+    local class = ent:GetClass()
+    if class:StartWith("item_") then
+        if class:match("charger") or class:match("crate") then
+            return "staticitem"
         end
         if IsValid(pObj) and (pObj:GetVolume() < 10000) then
             return "physitem"
@@ -56,7 +57,7 @@ function SCP.WhatItem(ent)
         return "item"
     end
     if ent:IsWeapon() then return "weapon" end
-    if IsValid(pObj) or ent:GetClass():StartWith("prop_") then return "prop" end
+    if IsValid(pObj) or class:StartWith("prop_") then return "prop" end
     return "other" 
 end
 
@@ -65,7 +66,7 @@ function SCP.GetUseEntity(ply)
     local usableEnts = {}
     for _,e in ipairs(ents.FindByClass("prop_physics")) do
         local pObj = e:GetPhysicsObject()
-        if (IsValid(pObj) and (pObj:GetVolume() < 10000)) or (e:GetVar("SCP_UseAnytime", false)) then
+        if (IsValid(pObj) and (pObj:GetVolume() < 10000)) and pObj:IsMotionEnabled() or (e:GetVar("SCP_UseAnytime", false)) then
             table.insert(usableEnts, e)
         end
     end

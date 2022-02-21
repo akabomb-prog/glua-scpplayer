@@ -24,6 +24,10 @@ hook.Add("FindUseEntity", "SCPPlayer", function (ply, defaultEnt)
 	if not SCP.ShouldAffect(ply) then return end
     if not b_useRestriction:GetBool() then return end
     local ent = SCP.GetUseEntity(ply)
+    if IsValid(ent) then
+        local whatItem = SCP.WhatItem(ent)
+        if whatItem == "staticitem" then return end
+    end
     local pickup = ply:KeyDown(IN_USE) and (not ply:KeyDownLast(IN_USE))
     if not (IsValid(ent) and pickup) then
         if b_nonSCPDisallow:GetBool() then
@@ -48,6 +52,5 @@ hook.Add("FindUseEntity", "SCPPlayer", function (ply, defaultEnt)
         ent:SetPos(ply:WorldSpaceCenter())
         ent:PhysWake()
     end
-    ent:Use(ply)
     return ent
 end)

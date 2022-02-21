@@ -4,7 +4,7 @@ SCP.materialHomeDir = "scp"
 
 SCP.speed = 120
 SCP.runSpeed = SCP.speed * 2
-SCP.staminaDrainSpeed = 18
+SCP.staminaDrainSpeed = 16
 SCP.staminaRecoverSpeed = 8
 SCP.sprintRecoveryTime = 3.5
 
@@ -27,7 +27,7 @@ SCP.HUD.meterOutline = 1
 SCP.HUD.meterBackColor = Color(48, 48, 48, 255)
 
 SCP.HUDColor = Color(255, 255, 255, 255)
-SCP.HUDImgSize = 96
+SCP.HUDImgSize = 80
 SCP.HUDHalfImgSize = SCP.HUDImgSize * 0.5
 
 SCP.HUDIconSize = 30
