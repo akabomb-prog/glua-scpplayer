@@ -22,5 +22,16 @@ hook.Add("CalcViewModelView", "SCPPlayer", function (wep, vm, oldPos, oldAng, po
 	local ply = wep:GetOwner()
 	if not SCP.ShouldAffect(ply) then return end
 	local posOffset, angOffset = CalcPosAng(ply)
-	return pos + posOffset, ang
+
+	local vmPos, vmAng = pos, ang
+
+    local hasCustomPos, hasCustomView = wep.GetViewModelPosition ~= nil, wep.CalcViewModelView ~= nil
+    if hasCustomPos or hasCustomView then
+        if hasCustomPos then
+            vmPos, vmAng = wep:GetViewModelPosition(oldPos, oldAng)
+        elseif hasCustomView then
+            vmPos, vmAng = wep:GetViewModelPosition(vm, oldPos, oldAng, oldPos, oldAng)
+        end
+	end
+	return vmPos + posOffset, vmAng
 end)
